@@ -232,3 +232,11 @@ h1 em{font-size:.97em}
 .footer-logo{width:min(365px,60vw);height:auto;display:block}
 .footer-brand{display:flex;align-items:center;background:var(--paper);padding:2px}
 @media(max-width:600px){.brand-symbol{width:50px;height:50px}.brand-person{font-size:11px;letter-spacing:.12em}.brand-subtitle{font-size:7px;letter-spacing:.12em}.branded-wordmark{gap:8px}.footer-logo{width:min(290px,75vw)}}
+
+/* Direção fotográfica v3: casa vivida, luz quente, madeira, vegetação */
+.hero-photo{background-image:url('assets/acolhedor-01.jpg');background-position:center 53%;filter:saturate(1.09) contrast(1.04) brightness(1.045)}
+.hero-shade{background:linear-gradient(180deg,rgba(28,23,18,.18) 0%,rgba(28,23,18,.08) 35%,rgba(28,23,18,.48) 100%)}
+.feature-image img,.feature-secondary img,.project-card img,.gallery-image img{filter:saturate(1.085) contrast(1.035)}
+.feature-image img,.feature-secondary img{object-position:center}
+@media(max-width:600px){.hero-photo{background-position:54% center;filter:saturate(1.08) contrast(1.04)}.hero-shade{background:linear-gradient(180deg,rgba(27,22,17,.22),rgba(27,22,17,.48))}}
+@media(prefers-reduced-motion:reduce){.hero-photo{animation:none;transform:none}}
