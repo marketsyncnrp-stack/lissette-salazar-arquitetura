@@ -222,3 +222,13 @@ h1 em{font-size:.97em}
 .featured-grid figcaption{position:absolute;bottom:0;left:0;background:rgba(255,254,250,.92);padding:11px 16px;color:var(--ink);font-size:9px;letter-spacing:.12em}
 @media(max-width:850px){.featured-grid{grid-template-columns:1fr 1fr;grid-template-areas:"main portrait" "caption second"}.feature-image{height:470px}.feature-portrait{height:370px}.feature-caption p{margin-top:36px}}
 @media(max-width:600px){.featured-grid{grid-template-columns:1fr;grid-template-areas:"main" "portrait" "caption" "second";gap:20px}.feature-image{height:360px}.feature-portrait{height:400px;width:70%;justify-self:end}.feature-secondary{height:280px}.feature-caption p{margin-top:20px}.about-main-photo{border-radius:220px 220px 0 0}.about-main-photo img{border-radius:220px 220px 0 0}}
+
+/* Identidade LS. — header, footer e favicon */
+.branded-wordmark{display:inline-flex;flex-direction:row;align-items:center;gap:12px;line-height:1.1}
+.brand-symbol{display:block;width:59px;height:59px;object-fit:contain;background:var(--paper);flex:none}
+.brand-name-group{display:flex;flex-direction:column;gap:8px;white-space:nowrap}
+.brand-person{font-family:var(--font-sans);font-weight:500;font-size:14px;letter-spacing:.18em}
+.brand-subtitle{font-family:var(--font-sans);font-size:8px;letter-spacing:.18em;opacity:.85}
+.footer-logo{width:min(365px,60vw);height:auto;display:block}
+.footer-brand{display:flex;align-items:center;background:var(--paper);padding:2px}
+@media(max-width:600px){.brand-symbol{width:50px;height:50px}.brand-person{font-size:11px;letter-spacing:.12em}.brand-subtitle{font-size:7px;letter-spacing:.12em}.branded-wordmark{gap:8px}.footer-logo{width:min(290px,75vw)}}
