@@ -4,7 +4,7 @@ on:
     branches: [main]
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 concurrency:
@@ -18,13 +18,47 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
-      - name: Build PNG sharing images from SVG identity
+      - name: Prepare local architecture photography
+        shell: bash
+        run: |
+          set -eu
+          mkdir -p assets
+          ids=(1600210492493-0946911123ea 1600566752227-8f3b7d8cdb50 1505693416388-ac5ce068fe85 1484154218962-a197022b5858 1513694203232-719a280e022f 1494526585095-c41746248156)
+          backups=(1600607687920-4e2a09cf159d 1600566753086-00f18fb6b3ea 1600607687939-ce8a6c25118c 1600585154340-be6161a56a0c 1600210492486-724fe5c67fb0 1600566753190-17f0baa2a6c3)
+          for i in 1 2 3 4 5 6; do
+            out="assets/interior-0${i}.jpg"
+            if [ -s "$out" ]; then continue; fi
+            ix=$((i-1))
+            ok=0
+            for photo in "${ids[$ix]}" "${backups[$ix]}" "1600210492493-0946911123ea"; do
+              if curl --fail --location --silent --show-error --retry 2 --max-time 40 "https://images.unsplash.com/photo-${photo}?auto=format&fit=crop&w=1500&q=85" -o "$out" && [ "$(stat -c%s "$out")" -gt 10000 ] && file --mime-type "$out" | grep -Eq 'image/(jpeg|png|webp)'; then
+                ok=1
+                break
+              fi
+            done
+            if [ "$ok" -ne 1 ]; then
+              echo "Unable to download valid architecture photo $i" >&2
+              exit 1
+            fi
+          done
+      - name: Commit validated photos to main
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/interior-0*.jpg
+          if ! git diff --staged --quiet; then
+            git commit -m "assets: vendor verified architecture photography"
+            git push origin HEAD:main
+          fi
+      - name: Generate sharing previews
+        shell: bash
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq librsvg2-bin
           rsvg-convert -w 1200 -h 630 assets/og-preview.svg > assets/og-preview.png
           rsvg-convert -w 180 -h 180 assets/logo-ls.svg > assets/logo-ls-apple.png
+      - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .
