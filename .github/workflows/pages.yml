@@ -41,12 +41,35 @@ jobs:
               exit 1
             fi
           done
+      - name: Download warmer architecture photography
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p assets
+          ids=(1600607687920-4e2a09cf159d 1600566753086-00f18fb6b3ea 1600210492486-724fe5c67fb0 1600585154340-be6161a56a0c 1600566753190-17f0baa2a6c3 1600607687939-ce8a6c25118c)
+          alternatives=(1600210492493-0946911123ea 1600607687920-4e2a09cf159d 1600566752227-8f3b7d8cdb50 1484154218962-a197022b5858 1513694203232-719a280e022f 1600566753086-00f18fb6b3ea)
+          for i in 1 2 3 4 5 6; do
+            out="assets/acolhedor-0${i}.jpg"
+            [ -s "$out" ] && continue
+            k=$((i-1))
+            ok=0
+            for id in "${ids[$k]}" "${alternatives[$k]}"; do
+              if curl -fLsS --retry 2 --max-time 35 "https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=1900&q=88" -o "$out" && [ "$(wc -c < "$out")" -gt 20000 ] && file --mime-type "$out" | grep -Eq 'image/(jpeg|png|webp)'; then
+                ok=1
+                break
+              fi
+            done
+            if [ "$ok" -ne 1 ]; then
+              echo "Image ${i} unavailable" >&2
+              exit 1
+            fi
+          done
       - name: Commit validated photos to main
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/interior-0*.jpg
+          git add assets/interior-0*.jpg assets/acolhedor-0*.jpg
           if ! git diff --staged --quiet; then
             git commit -m "assets: vendor verified architecture photography"
             git push origin HEAD:main
