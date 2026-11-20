@@ -19,6 +19,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+      - name: Build PNG sharing images from SVG identity
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq librsvg2-bin
+          rsvg-convert -w 1200 -h 630 assets/og-preview.svg > assets/og-preview.png
+          rsvg-convert -w 180 -h 180 assets/logo-ls.svg > assets/logo-ls-apple.png
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .
