@@ -240,3 +240,28 @@ h1 em{font-size:.97em}
 .feature-image img,.feature-secondary img{object-position:center}
 @media(max-width:600px){.hero-photo{background-position:54% center;filter:saturate(1.08) contrast(1.04)}.hero-shade{background:linear-gradient(180deg,rgba(27,22,17,.22),rgba(27,22,17,.48))}}
 @media(prefers-reduced-motion:reduce){.hero-photo{animation:none;transform:none}}
+
+
+/* HERO | três imagens editoriais com passagem lateral automática */
+.hero-slides{position:absolute;inset:0;display:flex;width:100%;height:100%;will-change:transform;transition:transform 1100ms cubic-bezier(.22,1,.36,1)}
+.hero-slide{position:relative;flex:0 0 100%;width:100%;height:100%;margin:0;background:#9b826c;overflow:hidden}
+.hero-slide img{width:100%;height:100%;object-fit:cover;display:block}
+.hero-shade{z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(25,19,17,.48) 0%,rgba(25,19,17,.2) 52%,rgba(25,19,17,.20) 100%)}
+.hero-content,.hero-topline,.hero-feature,.hero-side-note,.hero-scroll{z-index:2}
+.hero-slider-controls{position:absolute;bottom:31px;right:var(--margin);z-index:6;display:flex;align-items:center;gap:14px;color:#fff}
+.hero-slider-arrow{display:grid;place-items:center;width:34px;height:34px;border:1px solid rgba(255,255,255,.58);border-radius:50%;background:rgba(0,0,0,.12);color:inherit;font:20px/1 Arial,sans-serif;transition:background .25s ease}
+.hero-slider-arrow:hover,.hero-slider-arrow:focus-visible{background:rgba(126,64,62,.85)}
+.hero-slide-count{font-size:10px;letter-spacing:.15em;min-width:45px;text-align:center;font-variant-numeric:tabular-nums}
+.hero-slide-dots{display:flex;align-items:center;gap:7px}
+.hero-slide-dot{display:flex;align-items:center;width:29px;height:34px;padding:0;border:0;background:none}
+.hero-slide-dot::before{content:'';display:block;width:100%;height:1px;background:rgba(255,255,255,.56);transition:background .25s,height .25s}
+.hero-slide-dot[aria-current="true"]::before,.hero-slide-dot:hover::before{height:2px;background:#fff}
+.hero-slide:focus-visible,.hero-slide-dot:focus-visible,.hero-slider-arrow:focus-visible{outline:2px solid #fff;outline-offset:3px}
+@media(max-width:850px){.hero-slider-controls{bottom:31px;gap:9px}.hero-slide-dot{width:22px}}
+@media(max-width:600px){.hero-slider-controls{bottom:22px;right:var(--margin);gap:7px}.hero-slider-arrow{width:30px;height:30px;font-size:17px}.hero-slide-count{font-size:9px}.hero-slide-dot{width:16px;height:30px}.hero-scroll{bottom:30px;left:var(--margin)}}
+@media(prefers-reduced-motion:reduce){.hero-slides{transition:none!important}}
+/* Lenis usa scroll nativo; estes estados preservam scrollbars e áreas internas. */
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-smooth [data-lenis-prevent]{overscroll-behavior:contain}
+.lenis.lenis-stopped{overflow:hidden}

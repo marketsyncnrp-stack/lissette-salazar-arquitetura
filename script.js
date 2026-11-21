@@ -1,4 +1,94 @@
 (() => {
+
+  // Capa: slider horizontal automático (6,5s), com navegação manual e pausa.
+  function initHeroSlider() {
+    const hero = $('.hero');
+    const track = $('#hero-slides');
+    if (!hero || !track) return;
+    const slides = Array.from(track.querySelectorAll('.hero-slide'));
+    const dots = Array.from(document.querySelectorAll('[data-hero-dot]'));
+    const controls = $('.hero-slider-controls');
+    const counter = $('#hero-slide-count');
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let current = 0;
+    let interval = null;
+    let controlsFocused = false;
+    let controlsHovered = false;
+    let startTouch = null;
+    const total = slides.length;
+    if (total < 2) return;
+
+    function showSlide(next) {
+      current = (next + total) % total;
+      track.style.transform = `translate3d(-${current * 100}%, 0, 0)`;
+      slides.forEach((slide, i) => slide.setAttribute('aria-hidden', String(i !== current)));
+      dots.forEach((dot, i) => dot.setAttribute('aria-current', String(i === current)));
+      if (counter) counter.textContent = `${String(current + 1).padStart(2,'0')} / ${String(total).padStart(2,'0')}`;
+    }
+    function pause() {
+      if (interval !== null) window.clearInterval(interval);
+      interval = null;
+    }
+    function play() {
+      pause();
+      if (motionPreference.matches || document.hidden || controlsFocused || controlsHovered) return;
+      interval = window.setInterval(() => showSlide(current + 1), 6500);
+    }
+    function manual(next) {
+      showSlide(next);
+      play();
+    }
+    $('#hero-slide-prev')?.addEventListener('click', () => manual(current - 1));
+    $('#hero-slide-next')?.addEventListener('click', () => manual(current + 1));
+    dots.forEach((dot, i) => dot.addEventListener('click', () => manual(i)));
+    controls?.addEventListener('pointerenter', () => { controlsHovered = true; pause(); });
+    controls?.addEventListener('pointerleave', () => { controlsHovered = false; play(); });
+    controls?.addEventListener('focusin', () => { controlsFocused = true; pause(); });
+    controls?.addEventListener('focusout', (event) => {
+      if (!controls.contains(event.relatedTarget)) { controlsFocused = false; play(); }
+    });
+    track.addEventListener('touchstart', (event) => {
+      const touch = event.touches[0];
+      if (touch) startTouch = { x: touch.clientX, y: touch.clientY };
+    }, { passive: true });
+    track.addEventListener('touchend', (event) => {
+      if (!startTouch) return;
+      const touch = event.changedTouches[0];
+      const dx = touch.clientX - startTouch.x;
+      const dy = touch.clientY - startTouch.y;
+      if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.3) manual(current + (dx < 0 ? 1 : -1));
+      startTouch = null;
+    }, { passive: true });
+    document.addEventListener('visibilitychange', () => document.hidden ? pause() : play());
+    motionPreference.addEventListener?.('change', play);
+    // Pré-carrega os slides seguintes para evitar imagens vazias na transição.
+    slides.slice(1).forEach(slide => {
+      const img = slide.querySelector('img');
+      if (img) { const preload = new Image(); preload.src = img.currentSrc || img.src; }
+    });
+    showSlide(0);
+    play();
+  }
+
+  // Rolagem fluida de mouse/trackpad. Em dispositivos de toque e com preferência
+  // por movimento reduzido, preserva a rolagem nativa do navegador.
+  function initSmoothScrolling() {
+    if (typeof window.Lenis !== 'function') return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+    new window.Lenis({
+      autoRaf: true,
+      autoToggle: true,
+      anchors: true,
+      allowNestedScroll: true,
+      lerp: 0.075,
+      wheelMultiplier: 0.9,
+      smoothWheel: true
+    });
+  }
+  initHeroSlider();
+  initSmoothScrolling();
+
   const data = window.LISSETTE_SITE || { projects: [], gallery: [], contactEmail: '', contactWhatsapp: '' };
   const $ = (q, root = document) => root.querySelector(q);
   const esc = (str) => String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
