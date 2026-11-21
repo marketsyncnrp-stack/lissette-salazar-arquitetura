@@ -58,3 +58,24 @@ Fotos de interiores e arquitetura no site usam a **Unsplash License** (https://u
 ### Imagens da arquiteta
 
 Os arquivos `assets/lissette-retrato-pedra.webp` e `assets/lissette-retrato-porta.webp` foram recortados das capturas de tela fornecidas pelo cliente. Substituir por imagens originais, preservando a autorização de uso e a qualidade adequada para web.
+
+## Fotografia de referência — atualização de direção artística
+A seleção visual se inspira em aspectos de arquitetura afetiva e interiores artesanais observados em [Jhenny Keller / Jhenny à Obra](https://www.instagram.com/jhennykeller/). Não existe parceria, autoria ou endosso da criadora. Nenhuma imagem da conta dela foi copiada para este site.
+
+A direção editorial de Lissette permanece independente: base off-white e vinho-terra, serifas elegantes e fotos de interiores com livros, plantas, cor, azulejos, marcenaria, tecidos, iluminação quente e móveis com história.
+
+As imagens da capa, portfólio, galeria e destaques são referências **ilustrativas** de fotógrafos no Unsplash, sob [licença Unsplash](https://unsplash.com/license). Não são trabalhos executados pela Lissette. Substituir por fotografias autorizadas dos projetos reais antes da apresentação do portfólio definitivo.
+
+| Uso | Fotógrafo | Fonte |
+|---|---|---|
+| hero1 | Clay Banks | https://unsplash.com/photos/a-living-room-filled-with-furniture-and-a-flat-screen-tv-9FFtnyiV4Dg |
+| hero2 | Clay Banks | https://unsplash.com/photos/cozy-living-room-with-vintage-furniture-and-plants-BOEc--YhUXc |
+| hero3 | K F | https://unsplash.com/photos/cozy-living-room-with-plants-and-vintage-furniture-f2FIEtEGT04 |
+| room | Clay Banks | https://unsplash.com/photos/cozy-living-room-with-plush-sofa-and-wooden-chest-E0pZm6b2z7A |
+| kitchen | Clay Banks | https://unsplash.com/photos/bright-kitchen-with-light-green-cabinets-and-wooden-table-WRy3gg0qAW4 |
+| details | Clay Banks | https://unsplash.com/photos/vintage-wooden-kitchen-cabinets-with-tiled-backsplash--arHnjrOy_0 |
+| fabric | Virginia Marinova | https://unsplash.com/photos/cozy-seating-area-with-vintage-chairs-and-patterned-sofa-Ade1qXkSQDA |
+| retro | Kibeom Jin | https://unsplash.com/photos/cozy-room-with-vintage-decor-and-plants-C_wFwGMhqEw |
+| soft | Luis J. Corniel | https://unsplash.com/photos/a-cozy-rustic-living-room-with-eclectic-decor-gC7g0V-Ugyc |
+| garden | Inga Gaile | https://unsplash.com/photos/a-cozy-interior-with-vintage-furniture-and-greenery-Y2_yMjiFEpk |
+| lounge | Clay Banks | https://unsplash.com/photos/cozy-living-room-with-sofas-and-television-YruTk_dHKzk |

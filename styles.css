@@ -265,3 +265,17 @@ html.lenis,html.lenis body{height:auto}
 .lenis.lenis-smooth{scroll-behavior:auto!important}
 .lenis.lenis-smooth [data-lenis-prevent]{overscroll-behavior:contain}
 .lenis.lenis-stopped{overflow:hidden}
+
+/* v4 — Direção de arte: casa afetiva, madeira, verde sálvia e texturas vividas.
+   A tipografia e a paleta Lissette Salazar permanecem editoriais. */
+:root{--olive-muted:#7c846f;--sage-soft:#e6e9df}
+.hero-slide{background:#766a58}
+.hero-shade{background:linear-gradient(90deg,rgba(24,22,18,.55) 0%,rgba(24,22,18,.30) 43%,rgba(24,22,18,.09) 100%)}
+.hero-slide img{filter:none}
+.hero-feature-image img{filter:none;object-fit:cover}
+.feature-image img,.feature-secondary img,.project-card img,.gallery-image img,.approach-image img{filter:none!important}
+.gallery-section{background:#e8e8df}
+.gallery-caption{border-top-color:#b8b9a7}
+.featured-grid figcaption{background:rgba(251,249,242,.94)}
+.hero-slider-arrow:hover,.hero-slider-arrow:focus-visible{background:var(--terra)}
+@media(max-width:600px){.hero-shade{background:linear-gradient(90deg,rgba(23,22,19,.58),rgba(23,22,19,.19))}}
