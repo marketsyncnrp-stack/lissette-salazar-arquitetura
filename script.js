@@ -1,5 +1,8 @@
 (() => {
 
+  const data = window.LISSETTE_SITE || { projects: [], gallery: [], contactEmail: '', contactWhatsapp: '' };
+  const $ = (q, root = document) => root.querySelector(q);
+  const esc = (str) => String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
   // Capa: slider horizontal automático (6,5s), com navegação manual e pausa.
   function initHeroSlider() {
     const hero = $('.hero');
@@ -89,9 +92,6 @@
   initHeroSlider();
   initSmoothScrolling();
 
-  const data = window.LISSETTE_SITE || { projects: [], gallery: [], contactEmail: '', contactWhatsapp: '' };
-  const $ = (q, root = document) => root.querySelector(q);
-  const esc = (str) => String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
   const grid = $('#projects-grid');
   const projectDialog = $('#project-dialog');
   let currentFilter = 'todos';
