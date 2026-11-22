@@ -6,7 +6,7 @@
  */
 window.LISSETTE_SITE = {
   contactEmail: '', // Informe o e-mail profissional para ativar o envio de briefings.
-  contactWhatsapp: '', // Opcional: número internacional, ex. 5527999999999.
+  contactWhatsapp: '5527997529605', // WhatsApp profissional: +55 (27) 99752-9605.
   projects: [
     {
       id: 'referencia-sala-afetiva', title: 'Casa que acolhe', category: 'interiores', type: 'INTERIORES / REFERÊNCIA 01',

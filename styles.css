@@ -279,3 +279,14 @@ html.lenis,html.lenis body{height:auto}
 .featured-grid figcaption{background:rgba(251,249,242,.94)}
 .hero-slider-arrow:hover,.hero-slider-arrow:focus-visible{background:var(--terra)}
 @media(max-width:600px){.hero-shade{background:linear-gradient(90deg,rgba(23,22,19,.58),rgba(23,22,19,.19))}}
+
+/* Brandbook LS. — vetorização do monograma aprovado, em vinho-terra e carvão */
+.site-header .branded-wordmark{display:flex;flex-direction:row;align-items:center;justify-content:center;padding:6px 11px;background:var(--paper);width:clamp(260px,27vw,365px);min-width:0;line-height:1}
+.branded-wordmark .brand-lockup{display:block;width:100%;height:auto;max-height:82px;object-fit:contain}
+.footer-logo{width:min(445px,70vw);height:auto;object-fit:contain}
+.contact-brand-mark{display:block;max-width:125px;width:100%;height:auto;align-self:flex-end;margin:0 0 48px;border-radius:12px}
+.contact-cta-whatsapp{text-decoration:none}
+.contact-brief-link{display:inline-flex;align-self:flex-start;align-items:center;gap:12px;padding:11px 0 5px;margin-top:9px;color:#f3e9e4;background:none;border:0;border-bottom:1px solid rgba(255,255,255,.6);font-size:11px;letter-spacing:.02em}
+.contact-brief-link:hover{text-decoration:underline}
+@media(max-width:900px){.site-header .branded-wordmark{width:clamp(244px,30vw,320px)}}
+@media(max-width:600px){.site-header .branded-wordmark{width:250px;max-width:calc(100vw - 120px);padding:4px 7px}.contact-brand-mark{max-width:90px;margin-bottom:14px}}
