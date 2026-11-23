@@ -110,14 +110,28 @@
     const header=$('.site-header');
     if (!header) return;
     let lastY=window.scrollY;
+    let movement=0;
+    let direction=0;
     let scheduled=false;
     function update() {
       const y=Math.max(0,window.scrollY);
       const delta=y-lastY;
+      const newDirection=Math.sign(delta);
+      if(newDirection !== 0) {
+        if(newDirection !== direction) movement=0;
+        direction=newDirection;
+        movement+=Math.abs(delta);
+      }
       const menuOpen=$('.mobile-nav-toggle')?.getAttribute('aria-expanded') === 'true';
-      if(y<95 || menuOpen || header.contains(document.activeElement)) header.classList.remove('is-hidden');
-      else if(delta>6 && y>130) header.classList.add('is-hidden');
-      else if(delta< -6) header.classList.remove('is-hidden');
+      if(y<95 || menuOpen || header.contains(document.activeElement)) {
+        header.classList.remove('is-hidden');
+      } else if(movement>26 && direction>0 && y>135) {
+        header.classList.add('is-hidden');
+        movement=0;
+      } else if(movement>20 && direction<0) {
+        header.classList.remove('is-hidden');
+        movement=0;
+      }
       header.classList.toggle('is-scrolled',y>20);
       lastY=y;
       scheduled=false;
