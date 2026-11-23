@@ -15,17 +15,16 @@
     const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
     let current = 0;
     let interval = null;
-    let controlsFocused = false;
-    let controlsHovered = false;
+    let userPaused = false;
     let startTouch = null;
     const total = slides.length;
     const heading = $('#hero-heading');
     const description = $('#hero-description');
     const heroAction = $('#hero-action');
     const stories = [
-      { heading: 'A casa<br><em>é sua história.</em>', description: 'Projetos com identidade, aconchego e materiais que conversam com a natureza.', link: 'Conheça meus projetos', href: '#projetos' },
-      { heading: 'Entre o verde<br><em>e o viver.</em>', description: 'Uma arquitetura que aproxima o cotidiano da luz natural e da paisagem.', link: 'Minha abordagem', href: '#abordagem' },
-      { heading: 'Espaços<br>para <em>sentir.</em>', description: 'Cada ambiente pode traduzir quem você é — com beleza, conforto e significado.', link: 'Vamos conversar', href: '#contato' }
+      { heading: 'A casa<br><em>é sua história.</em>', description: 'Interiores com madeira natural, proporções suaves e a luz como parte do projeto.', link: 'Conheça meus projetos', href: '#projetos' },
+      { heading: 'Entre o verde<br><em>e o viver.</em>', description: 'Acolhimento farmhouse, vigas em madeira e materiais que convidam à permanência.', link: 'Minha abordagem', href: '#abordagem' },
+      { heading: 'Espaços<br>para <em>sentir.</em>', description: 'O equilíbrio entre conforto, textura e detalhes que revelam sua personalidade.', link: 'Vamos conversar', href: '#contato' }
     ];
     // As fotos ficam no repositório; durante o primeiro deploy há fallback verificado.
     slides.forEach(slide => {
@@ -64,7 +63,7 @@
     }
     function play() {
       pause();
-      if (motionPreference.matches || document.hidden || controlsFocused || controlsHovered) return;
+      if (document.hidden || userPaused) return;
       interval = window.setInterval(() => showSlide(current + 1), 6500);
     }
     function manual(next) {
@@ -74,11 +73,14 @@
     $('#hero-slide-prev')?.addEventListener('click', () => manual(current - 1));
     $('#hero-slide-next')?.addEventListener('click', () => manual(current + 1));
     dots.forEach((dot, i) => dot.addEventListener('click', () => manual(i)));
-    controls?.addEventListener('pointerenter', () => { controlsHovered = true; pause(); });
-    controls?.addEventListener('pointerleave', () => { controlsHovered = false; play(); });
-    controls?.addEventListener('focusin', () => { controlsFocused = true; pause(); });
-    controls?.addEventListener('focusout', (event) => {
-      if (!controls.contains(event.relatedTarget)) { controlsFocused = false; play(); }
+    const pauseToggle = $('#hero-slide-toggle');
+    pauseToggle?.addEventListener('click', () => {
+      userPaused = !userPaused;
+      pauseToggle.setAttribute('aria-pressed', String(userPaused));
+      pauseToggle.setAttribute('aria-label', userPaused ? 'Retomar carrossel' : 'Pausar carrossel');
+      pauseToggle.title = userPaused ? 'Retomar carrossel' : 'Pausar carrossel';
+      pauseToggle.querySelector('span').textContent = userPaused ? '▶' : 'Ⅱ';
+      play();
     });
     track.addEventListener('touchstart', (event) => {
       const touch = event.touches[0];
@@ -93,7 +95,7 @@
       startTouch = null;
     }, { passive: true });
     document.addEventListener('visibilitychange', () => document.hidden ? pause() : play());
-    motionPreference.addEventListener?.('change', play);
+    // A preferência de movimento reduzido desativa apenas a animação CSS, não a troca automática.
     // Pré-carrega os slides seguintes para evitar imagens vazias na transição.
     slides.slice(1).forEach(slide => {
       const img = slide.querySelector('img');
@@ -101,6 +103,30 @@
     });
     showSlide(0);
     play();
+  }
+
+  // Header bege uniforme: some ao descer, retorna ao subir e permanece em navegação.
+  function initSmartHeader() {
+    const header=$('.site-header');
+    if (!header) return;
+    let lastY=window.scrollY;
+    let scheduled=false;
+    function update() {
+      const y=Math.max(0,window.scrollY);
+      const delta=y-lastY;
+      const menuOpen=$('.mobile-nav-toggle')?.getAttribute('aria-expanded') === 'true';
+      if(y<95 || menuOpen || header.contains(document.activeElement)) header.classList.remove('is-hidden');
+      else if(delta>6 && y>130) header.classList.add('is-hidden');
+      else if(delta< -6) header.classList.remove('is-hidden');
+      header.classList.toggle('is-scrolled',y>20);
+      lastY=y;
+      scheduled=false;
+    }
+    window.addEventListener('scroll',()=>{
+      if(!scheduled){scheduled=true;requestAnimationFrame(update);}
+    },{passive:true});
+    header.addEventListener('focusin',()=>header.classList.remove('is-hidden'));
+    update();
   }
 
   // Rolagem fluida de mouse/trackpad. Em dispositivos de toque e com preferência
@@ -120,6 +146,7 @@
     });
   }
   initHeroSlider();
+  initSmartHeader();
   initSmoothScrolling();
 
   const grid = $('#projects-grid');
@@ -194,7 +221,7 @@
   const menuBtn = $('.mobile-nav-toggle');
   const menu = $('#mobile-menu');
   function closeMenu(){menu.hidden = true;menuBtn?.setAttribute('aria-expanded','false');menuBtn?.setAttribute('aria-label','Abrir menu')}
-  menuBtn?.addEventListener('click', () => { const isOpen = menu.hidden; menu.hidden = !isOpen; menuBtn.setAttribute('aria-expanded', String(isOpen)); menuBtn.setAttribute('aria-label', isOpen ? 'Fechar menu' : 'Abrir menu'); });
+  menuBtn?.addEventListener('click', () => { const isOpen = menu.hidden; menu.hidden = !isOpen; $('.site-header')?.classList.remove('is-hidden'); menuBtn.setAttribute('aria-expanded', String(isOpen)); menuBtn.setAttribute('aria-label', isOpen ? 'Fechar menu' : 'Abrir menu'); });
   menu?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
   document.addEventListener('keydown', e => {if(e.key === 'Escape' && !menu?.hidden) closeMenu()});
   $('#year').textContent = new Date().getFullYear();
