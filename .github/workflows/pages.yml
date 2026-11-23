@@ -1,12 +1,10 @@
-name: Publish preview on GitHub Pages
+name: Prepare images and social previews for Vercel
 on:
   push:
     branches: [main]
   workflow_dispatch:
 permissions:
   contents: write
-  pages: write
-  id-token: write
 concurrency:
   group: pages
   cancel-in-progress: true
@@ -77,16 +75,6 @@ jobs:
             test "$(stat -c%s "$path")" -gt 20000
             file --mime-type "$path" | grep -Eq 'image/(jpeg|png|webp)'
           done
-      - name: Commit validated photos to main
-        shell: bash
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/interior-0*.jpg assets/acolhedor-0*.jpg assets/hero-arquitetura-0*.jpg
-          if ! git diff --staged --quiet; then
-            git commit -m "assets: vendor verified architecture photography"
-            git push origin HEAD:main
-          fi
       - name: Generate sharing previews
         shell: bash
         run: |
@@ -94,9 +82,20 @@ jobs:
           sudo apt-get install -y -qq librsvg2-bin
           rsvg-convert -w 1200 -h 630 assets/og-preview.svg > assets/og-preview.png
           rsvg-convert -w 180 -h 180 assets/logo-ls.svg > assets/logo-ls-apple.png
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: .
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Validate portrait and generated assets
+        shell: bash
+        run: |
+          sudo apt-get install -y -qq webp
+          test -s assets/lissette-retrato-novo.webp
+          dwebp assets/lissette-retrato-novo.webp -o /tmp/lissette-retrato-check.png
+          file assets/hero-arquitetura-0*.jpg
+      - name: Commit generated assets to main
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/interior-0*.jpg assets/acolhedor-0*.jpg assets/hero-arquitetura-0*.jpg assets/og-preview.png assets/logo-ls-apple.png
+          if ! git diff --staged --quiet; then
+            git commit -m "assets: verify hero photography and publish social previews"
+            git push origin HEAD:main
+          fi
