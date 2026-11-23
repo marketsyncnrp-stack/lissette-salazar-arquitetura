@@ -64,12 +64,25 @@ jobs:
               exit 1
             fi
           done
+      - name: Download curated hero photographs
+        shell: bash
+        run: |
+          set -euo pipefail
+          ids=(1760067537265-dc9f11824eda 1704457030496-3463cf1b8650 1761013320045-d29e4f10bcbc)
+          for i in 1 2 3; do
+            path="assets/hero-arquitetura-0${i}.jpg"
+            if [ -s "$path" ]; then continue; fi
+            index=$((i-1))
+            curl -fLsS --retry 3 --max-time 45 "https://images.unsplash.com/photo-${ids[$index]}?auto=format&fit=crop&w=2400&q=87" -o "$path"
+            test "$(stat -c%s "$path")" -gt 20000
+            file --mime-type "$path" | grep -Eq 'image/(jpeg|png|webp)'
+          done
       - name: Commit validated photos to main
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/interior-0*.jpg assets/acolhedor-0*.jpg
+          git add assets/interior-0*.jpg assets/acolhedor-0*.jpg assets/hero-arquitetura-0*.jpg
           if ! git diff --staged --quiet; then
             git commit -m "assets: vendor verified architecture photography"
             git push origin HEAD:main
