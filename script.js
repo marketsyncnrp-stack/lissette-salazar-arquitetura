@@ -19,10 +19,40 @@
     let controlsHovered = false;
     let startTouch = null;
     const total = slides.length;
+    const heading = $('#hero-heading');
+    const description = $('#hero-description');
+    const heroAction = $('#hero-action');
+    const stories = [
+      { heading: 'A casa<br><em>é sua história.</em>', description: 'Projetos com identidade, aconchego e materiais que conversam com a natureza.', link: 'Conheça meus projetos', href: '#projetos' },
+      { heading: 'Entre o verde<br><em>e o viver.</em>', description: 'Uma arquitetura que aproxima o cotidiano da luz natural e da paisagem.', link: 'Minha abordagem', href: '#abordagem' },
+      { heading: 'Espaços<br>para <em>sentir.</em>', description: 'Cada ambiente pode traduzir quem você é — com beleza, conforto e significado.', link: 'Vamos conversar', href: '#contato' }
+    ];
+    // As fotos ficam no repositório; durante o primeiro deploy há fallback verificado.
+    slides.forEach(slide => {
+      const img = slide.querySelector('img[data-fallback]');
+      if (!img) return;
+      img.addEventListener('error', function useFallback() {
+        if (img.dataset.fallback && img.dataset.fallback !== img.src) {
+          img.src = img.dataset.fallback;
+          img.removeAttribute('data-fallback');
+        }
+      });
+      if (img.complete && !img.naturalWidth && img.dataset.fallback) {
+        img.src = img.dataset.fallback;
+        img.removeAttribute('data-fallback');
+      }
+    });
     if (total < 2) return;
 
     function showSlide(next) {
       current = (next + total) % total;
+      const story = stories[current];
+      if (heading) heading.innerHTML = story.heading;
+      if (description) description.textContent = story.description;
+      if (heroAction) {
+        heroAction.href = story.href;
+        heroAction.innerHTML = story.link + ' <span aria-hidden="true">↗</span>';
+      }
       track.style.transform = `translate3d(-${current * 100}%, 0, 0)`;
       slides.forEach((slide, i) => slide.setAttribute('aria-hidden', String(i !== current)));
       dots.forEach((dot, i) => dot.setAttribute('aria-current', String(i === current)));
