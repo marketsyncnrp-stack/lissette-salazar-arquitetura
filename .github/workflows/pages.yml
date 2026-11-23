@@ -16,6 +16,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Validate site JavaScript syntax
+        run: |
+          node --check script.js
+          node --check content.js
       - name: Prepare local architecture photography
         shell: bash
         run: |
