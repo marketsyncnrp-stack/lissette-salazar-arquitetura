@@ -290,3 +290,22 @@ html.lenis,html.lenis body{height:auto}
 .contact-brief-link:hover{text-decoration:underline}
 @media(max-width:900px){.site-header .branded-wordmark{width:clamp(244px,30vw,320px)}}
 @media(max-width:600px){.site-header .branded-wordmark{width:250px;max-width:calc(100vw - 120px);padding:4px 7px}.contact-brand-mark{max-width:90px;margin-bottom:14px}}
+
+/* 2026-11-23: capa residencial, farmhouse contemporâneo e texto editorial por slide */
+.hero-slide img{width:100%;height:100%;object-fit:cover;filter:saturate(1.055) contrast(1.03)}
+.hero-slide[data-hero-slide="0"] img{object-position:center 48%}
+.hero-slide[data-hero-slide="1"] img{object-position:center 54%}
+.hero-slide[data-hero-slide="2"] img{object-position:center 52%}
+.hero-shade{background:linear-gradient(180deg,rgba(14,20,16,.28) 0%,rgba(14,20,16,.09) 35%,rgba(13,18,14,.58) 100%)}
+#hero-heading{max-width:1120px}
+#hero-description{min-height:3.5em}
+#hero-action{white-space:nowrap}
+.hero-slide-count{font-variant-numeric:tabular-nums}
+@media(max-width:600px){
+ .hero-slide[data-hero-slide="0"] img{object-position:53% center}
+ .hero-slide[data-hero-slide="1"] img{object-position:51% center}
+ .hero-slide[data-hero-slide="2"] img{object-position:55% center}
+ .hero-shade{background:linear-gradient(180deg,rgba(13,18,14,.31) 0%,rgba(13,18,14,.06) 32%,rgba(13,18,14,.65) 100%)}
+ #hero-heading{font-size:clamp(58px,13.1vw,86px);letter-spacing:-.07em}
+ #hero-description{min-height:3.4em}
+}
