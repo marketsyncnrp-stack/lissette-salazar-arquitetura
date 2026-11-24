@@ -349,3 +349,16 @@ section[id]{scroll-margin-top:calc(var(--header-height) + 10px)}
  .hero-slide[data-hero-slide="2"] img{object-position:51% center}
  .hero-shade{background:linear-gradient(180deg,rgba(22,25,21,.19) 0%,rgba(22,25,21,.07) 28%,rgba(19,23,19,.53) 100%)}
 }
+
+/* Retratos oficiais em HQ (WebP qualidade 93, sem filtros nem alteração das cores). */
+.feature-portrait img,.about-main-photo img,.about-inset-photo img{
+  display:block;width:100%;height:100%;object-fit:cover;
+  image-rendering:auto;filter:none!important;
+}
+.feature-portrait img{object-position:center 16%}
+.about-main-photo img{object-position:center 20%}
+.about-inset-photo img{object-position:center 22%}
+@media(max-width:600px){
+ .feature-portrait img{object-position:center 14%}
+ .about-main-photo img{object-position:center 17%}
+}

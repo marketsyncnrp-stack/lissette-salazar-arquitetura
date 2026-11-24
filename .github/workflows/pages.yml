@@ -116,6 +116,15 @@ jobs:
           test "$(stat -c%s assets/og-lissette-v2.png)" -gt 10000
           file --mime-type assets/og-lissette-v2.png | grep -q image/png
           rsvg-convert -w 180 -h 180 assets/logo-ls.svg > assets/logo-ls-apple.png
+      - name: Check portrait source quality
+        shell: bash
+        run: |
+          set -euo pipefail
+          for file in assets/lissette-retrato-{pedra,porta,novo}-hq.webp; do
+            test -s "$file"
+            [ "$(stat -c%s "$file")" -gt 45000 ]
+            file --mime-type "$file" | grep -q image/webp
+          done
       - name: Validate portrait and generated assets
         shell: bash
         run: |
