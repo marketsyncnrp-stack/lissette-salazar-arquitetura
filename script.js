@@ -22,9 +22,9 @@
     const description = $('#hero-description');
     const heroAction = $('#hero-action');
     const stories = [
-      { heading: 'A casa<br><em>é sua história.</em>', description: 'Interiores com madeira natural, proporções suaves e a luz como parte do projeto.', link: 'Conheça meus projetos', href: '#projetos' },
-      { heading: 'Entre o verde<br><em>e o viver.</em>', description: 'Acolhimento farmhouse, vigas em madeira e materiais que convidam à permanência.', link: 'Minha abordagem', href: '#abordagem' },
-      { heading: 'Espaços<br>para <em>sentir.</em>', description: 'O equilíbrio entre conforto, textura e detalhes que revelam sua personalidade.', link: 'Vamos conversar', href: '#contato' }
+      { heading: 'A casa<br><em>é sua história.</em>', description: 'Luz natural, materiais acolhedores e espaços conectados ao jardim.', link: 'Conheça meus projetos', href: '#projetos' },
+      { heading: 'Entre o verde<br><em>e o viver.</em>', description: 'Ambientes abertos, jardins integrados e conforto em cada detalhe.', link: 'Minha abordagem', href: '#abordagem' },
+      { heading: 'Espaços<br>para <em>sentir.</em>', description: 'Arquitetura contemporânea, tons claros e a natureza como parte do morar.', link: 'Vamos conversar', href: '#contato' }
     ];
     // As fotos ficam no repositório; durante o primeiro deploy há fallback verificado.
     slides.forEach(slide => {

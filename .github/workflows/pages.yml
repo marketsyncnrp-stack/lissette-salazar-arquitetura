@@ -92,6 +92,20 @@ jobs:
             file --mime-type "$output" | grep -q 'image/jpeg'
             test "$(stat -c%s "$output")" -gt 30000
           done
+      - name: Download curated light-filled hero interiors
+        shell: bash
+        run: |
+          set -euo pipefail
+          photos=(photo-1778640331184-dc4c3e2608e1 photo-1721134111286-b3c4a5772ea9 photo-1744126405308-b7fb2d430e96)
+          mkdir -p assets
+          for n in 1 2 3; do
+            out="assets/hero-natural-0${n}.jpg"
+            [ -s "$out" ] && continue
+            i=$((n-1))
+            curl --fail --location --silent --show-error --retry 3 --retry-delay 2 --max-time 80               "https://images.unsplash.com/${photos[$i]}?auto=format&fit=crop&fm=jpg&w=2400&q=88" -o "$out"
+            test "$(stat -c%s "$out")" -gt 40000
+            file --mime-type "$out" | grep -q 'image/jpeg'
+          done
       - name: Generate sharing previews
         shell: bash
         run: |
@@ -114,7 +128,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/interior-0*.jpg assets/acolhedor-0*.jpg assets/hero-arquitetura-0*.jpg assets/hero-interior-0*.jpg assets/og-preview.png assets/og-lissette-v2.png assets/logo-ls-apple.png
+          git add assets/interior-0*.jpg assets/acolhedor-0*.jpg assets/hero-arquitetura-0*.jpg assets/hero-interior-0*.jpg assets/hero-natural-0*.jpg assets/og-preview.png assets/og-lissette-v2.png assets/logo-ls-apple.png
           if ! git diff --staged --quiet; then
             git commit -m "assets: verify hero photography and publish social previews"
             git push origin HEAD:main
